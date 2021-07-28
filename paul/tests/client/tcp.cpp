@@ -7,8 +7,9 @@
 #include <string.h>
 #include <fcntl.h>
 #include <fstream>
+#include <cstdlib>
 
-#define PORT 80
+#define DEFAULT_PORT 80
 
 bool connected(int socket)
 {
@@ -21,9 +22,11 @@ bool connected(int socket)
 int main(int ac, char **av)
 {
     const char *IP = "0.0.0.0";
-    if (ac == 2)
+    int PORT = DEFAULT_PORT;
+    if (ac >= 2)
         IP = av[1];
-     
+    if (ac >= 3)
+        PORT = std::atoi(av[2]);
     int online = 1;
 
     struct sockaddr_in server_address;
@@ -34,22 +37,18 @@ int main(int ac, char **av)
 
     int socket_fd = socket(PF_INET, SOCK_STREAM, 6);
 
-    std::cout << "avant\n";
     if (connect(socket_fd, (struct sockaddr*) &server_address, sizeof(server_address)) == -1)
     {
         std::cerr << "Error 1\n";
         return 1;
     }
-    std::cout << "apres\n";
     char read_buf[100];
     char send_buf[100];
     fd_set readfds;
 
     std::cout << "Debut chat : " << socket_fd << '\n';
-    sleep(1);
-    //FD_SET(socket_fd, &tmp);
 
-    std::ofstream file("response.html", std::ios_base::out);
+    std::ofstream file("response.server", std::ios_base::out);
 
     while (online)
     {
@@ -61,6 +60,8 @@ int main(int ac, char **av)
         if ((sret = select(FD_SETSIZE, &readfds, NULL, NULL, NULL)) < 0)
         {
             std::cerr << "Error 2\n";
+            file.close();
+            close(socket_fd);
             return 2;
         }
         for (int i = 0;i < FD_SETSIZE; i++)
@@ -79,6 +80,8 @@ int main(int ac, char **av)
                     if (send(socket_fd, send_buf, sret, 0) < 0)
                     {
                         std::cout << "Error send\n";
+                        file.close();
+                        close(socket_fd);
                         return 2;
                     }
                 }
@@ -88,6 +91,7 @@ int main(int ac, char **av)
                     {
                         std::cout << "Disconnected\n";
                         close(socket_fd);
+                        file.close();
                         return 0;
                     }
                     memset(read_buf, 0, sizeof(read_buf));
@@ -95,6 +99,8 @@ int main(int ac, char **av)
                     if (sret < 0)
                     {
                         std::cout << "Error read\n";
+                        file.close();
+                        close(socket_fd);
                         return 3;
                     }
                     std::cout << read_buf;
