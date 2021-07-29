@@ -12,8 +12,7 @@ bool send_file(int socket, const char *filename)
         return false;
     }
     std::filebuf *buf = fd.rdbuf();
-    std::streamsize size = buf->in_avail();
-    // a finir
+    std::streamsize size = buf->in_avail(); // Content-Length
 }
 
 

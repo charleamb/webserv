@@ -92,17 +92,14 @@ int main(int ac, char **av) // Va écouter tous les file descriptor à surveille
                             std::cout << "New client\n";
                         }
                     }
-                
-                    else
-                    {
-                        if (!manageClient(fd_to_watch[i].fd))
-                            deleteOne(&fd_to_watch, &nb_fd, fd_to_watch[i].fd);
-                    }
+                    else if (!manageClient(fd_to_watch[i].fd))
+                        deleteOne(&fd_to_watch, &nb_fd, fd_to_watch[i].fd);
                 }
             }
         }
     }
-
-    close(listen_fd);
+    for (int i = 0; i < nb_fd; i++)
+        close(fd_to_watch[i].fd);
+    delete[] fd_to_watch;
     return 0;
 }

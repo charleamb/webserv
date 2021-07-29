@@ -28,21 +28,23 @@ typedef struct request_s
 {
     int type; //1 : GET     2 : POST    3 : DELETE      0 : UNKNOWN
     std::string host;
+    std::string body;
     std::string UserAgent;
     std::string Accept;
     std::string AcceptLanguage;
     std::string AcceptEncoding;
     bool connection; //true : keep-alive   false : close
+    bool complete; //request is complete ? 
 }               request_t;
 
-typedef struct route_s
+typedef struct route_s //partie CGI à ajouter
 {
-    std::string route;
-    std::string *redirect;
-    std::string *root;
-    bool listing;
-    std::string *directory_route;
-    std::string *upload_route;
+    std::string route;             //le chemin
+    std::string *redirect;         //redirection ?
+    std::string *root;             //si non-NULL, le chemin à partir lequel chercher les fichiers
+    bool listing;                  //directory listing ?
+    std::string *directory_route; //si non-NULL, chemin vers fichier à envoyer dans le cas où requete est un dossier
+    std::string *upload_route; //si non-NULL, chemin vers lequel les fichiers seront uploadés
 }               route_t;
 
 typedef struct server_s
@@ -50,8 +52,8 @@ typedef struct server_s
     int         port;
     int         listen_fd;
     std::string root;
-    route_t     *routes;
-    size_t      nb_routes;
+    route_t     *routes;        //tableau des 'locations'
+    size_t      nb_routes;      //nombre de 'location' dans le tableau
     std::string server_name;
     int         client_max_body_size;
     

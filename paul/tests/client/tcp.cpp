@@ -37,11 +37,13 @@ int main(int ac, char **av)
 
     int socket_fd = socket(PF_INET, SOCK_STREAM, 6);
 
+    std::cout << "Connecting..\n";
     if (connect(socket_fd, (struct sockaddr*) &server_address, sizeof(server_address)) == -1)
     {
         std::cerr << "Error 1\n";
         return 1;
     }
+    std::cout << "Connected !\n";
     char read_buf[100];
     char send_buf[100];
     fd_set readfds;
