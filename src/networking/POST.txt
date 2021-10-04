@@ -1,0 +1,11 @@
+POST /text.txt HTML/1.1
+Host : www
+Content-Type: multipart/form-data;boundary="test"
+
+--test
+coucou Les amis
+
+--test
+tu vas bien ?
+
+--test--

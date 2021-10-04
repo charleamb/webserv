@@ -1,113 +1,11 @@
 cmake_minimum_required(VERSION 3.6)
+
 project(webserv)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -std=c++98")
 
-include_directories(src/parser src/parsing src)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")#-Wall -Wextra -Werror -std=c++98")
 
-set(FILES
-        src/main.cpp
-        src/Networking/ft_networking.hpp
-        src/Networking/Sockets/ft_sockets.hpp
-        src/Networking/Server/Server.hpp
-        src/Networking/Server/Server.cpp
-        src/Networking/Sockets/Socket.hpp
-        src/Networking/Sockets/Socket.cpp
-        src/Networking/Sockets/BindingSocket.hpp
-        src/Networking/Sockets/BindingSocket.cpp
-        src/Networking/Sockets/ListeningSocket.hpp
-        src/Networking/Sockets/ListeningSocket.cpp
-        src/Networking/Response/Response.cpp
-        src/Networking/Response/ResponseHeader.cpp
-        src/Networking/Client/Client.hpp
-        src/Networking/Client/Client.cpp
-        src/Networking/Utils/utils.hpp
-        src/Networking/Utils/utils.cpp
-        src/Networking/Status/Status.cpp
-        src/Constants.hpp
+include_directories(src)
+add_subdirectory(src)
+add_subdirectory(tester)
+add_subdirectory(lib/googletest)
 
-        src/parser/Error.cpp
-
-        src/parser/bytes/Tag.hpp
-        src/parser/bytes/Itag.hpp
-        src/parser/bytes/Char.hpp
-        src/parser/bytes/Digit.hpp
-        src/parser/bytes/TakeUntil.hpp
-        src/parser/bytes/TakeWhile.hpp
-        src/parser/combinators/Alt.hpp
-        src/parser/combinators/Map.hpp
-        src/parser/sequence/Preceded.hpp
-        src/parser/sequence/Terminated.hpp
-        src/parser/sequence/Many.hpp
-        src/parser/sequence/Sequence.hpp
-        src/parser/sequence/Separated.hpp
-        src/parser/Error.hpp
-        src/parser/combinators.hpp
-        src/parser/Result.hpp
-        src/parser/slice.hpp
-        src/parser/Error.hpp
-        src/parser/Parser.hpp
-        src/parsing/HTTP/Request/RequestTarget/OriginForm.hpp
-        src/parsing/HTTP/Request/RequestTarget/Segment.hpp
-        src/parser/bytes/Alpha.hpp
-        src/parser/combinators/Opt.hpp
-        src/parsing/HTTP/Request/RequestTarget/Target.hpp
-        src/parsing/HTTP/Request/RequestTarget/Scheme.hpp
-        src/parser/combinators/AsSlice.hpp
-        src/parsing/HTTP/Headers/HeaderField.hpp
-        src/parser/bytes/TakeWith.hpp
-        src/parser/bytes/HexChar.hpp
-        src/parsing/HTTP/Headers/Headers.hpp
-        src/parsing/HTTP/Request/RequestTarget/OriginForm.cpp
-        src/parsing/HTTP/Headers/ContentLength.hpp
-        src/parsing/HTTP/Headers/Date.hpp
-        src/parsing/HTTP/Headers/Date.cpp
-        src/parsing/Config/config.hpp
-        src/parsing/Config/config.cpp
-        src/parsing/Config/Module/Listen.hpp
-        src/parsing/Config/Module/ServerName.hpp
-        src/parsing/Config/Module/Root.hpp
-        src/parser/combinators/Wrap.hpp
-        src/parsing/Config/Structure/Bloc.hpp
-        src/parsing/Config/Structure/Line.hpp
-        src/parsing/Config/Module/Location.hpp
-        src/parsing/Config/Module/ClientMaxBodySize.hpp
-        src/parsing/Config/Module/Index.hpp
-        src/parsing/Config/Module/Location.cpp
-        src/parsing/Config/Module/Methods.hpp
-        src/parser/bytes/Strip.hpp
-        src/parsing/Config/Module/ErrorPage.hpp
-        src/parsing/Config/Module/Upload.hpp
-        src/parsing/Config/Module/Cgi.hpp
-        src/parsing/Config/Module/Redirect.hpp
-        src/parsing/Config/Module/Cgi.cpp
-        src/parsing/Config/Module/ClientMaxBodySize.cpp
-        src/parsing/Config/Module/ErrorPage.cpp
-        src/parsing/Config/Module/Index.cpp
-        src/parsing/Config/Module/Listen.cpp
-        src/parsing/Config/Module/Methods.cpp
-        src/parsing/Config/Module/Redirect.cpp
-        src/parsing/Config/Module/Root.cpp
-        src/parsing/Config/Module/ServerName.cpp
-        src/parsing/Config/Module/Upload.cpp
-        src/parsing/Config/Structure/Line.cpp
-        src/parser/bytes/Alpha.cpp
-        src/parser/bytes/Char.cpp
-        src/parser/bytes/Digit.cpp
-        src/parser/bytes/HexChar.cpp
-        src/parser/bytes/ITag.cpp
-        src/parser/bytes/Match.cpp
-        src/parser/bytes/OneOf.cpp
-        src/parser/bytes/Tag.cpp
-        src/parser/bytes/TakeUntil.cpp
-        src/parser/bytes/TakeWhile.cpp
-        src/parsing/Tokens.cpp
-        src/parsing/HTTP/Request.cpp
-        src/parsing/HTTP/Request/RequestTarget/Scheme.cpp
-        src/parsing/HTTP/Request/RequestTarget/Segment.cpp
-        src/parsing/HTTP/Request/RequestLine.cpp
-        src/parsing/HTTP/Request/RequestLine.hpp
-        src/parsing/Methods.cpp
-        src/parsing/Methods.hpp)
-
-add_executable(webserv ${FILES})
-set_property(TARGET webserv PROPERTY CXX_STANDARD 98)
