@@ -1,3 +1,0 @@
-/Users/gofmane/42/webserv-charleamb/CMakeFiles/rebuild_cache.dir
-/Users/gofmane/42/webserv-charleamb/CMakeFiles/edit_cache.dir
-/Users/gofmane/42/webserv-charleamb/CMakeFiles/webserv.dir
